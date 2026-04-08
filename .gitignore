@@ -1,0 +1,155 @@
+# Xcode / iOS / macOS
+#
+# Typical entries for Xcode projects: build products, user-specific files,
+# provisioning profiles, and temporary files produced by the IDE and macOS.
+
+# macOS Finder
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.xcarchive
+*.xcuserstate
+*.xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+
+# Workspace user data (do NOT ignore the shared workspace file if your team commits it)
+**/*.xcworkspace/xcuserdata/
+**/*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Project user data
+**/*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+**/*.xcodeproj/xcuserdata/
+
+# CocoaPods (uncomment if you don't check in Pods/)
+Pods/
+# If you vendor Pods/ into the repo, remove the line above and commit Pods/ instead.
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+# If you check in the 'Package.resolved' file, keep it; otherwise ignore.
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+
+# Provisioning profiles, keys, certificates
+*.mobileprovision
+*.provisionprofile
+*.p12
+*.pem
+*.key
+*.cer
+
+# Firebase / Google services (often contain secrets)
+GoogleService-Info.plist
+google-services.json
+
+# Environment files
+.env
+.env.*
+.env.local
+
+# Editor / IDE specific (ignore user/project-specific caches)
+*.swp
+*~.nib
+*.tmproj
+.idea/
+.vscode/
+
+# Xcode Instruments
+*.trace
+
+# Crash reporting / intermediate build products
+*.dSYM
+*.app.dSYM
+*.dSYM.zip
+*.dSYM.tar
+
+# Bundler / Ruby / other build tooling
+.bundle/
+vendor/bundle/
+
+# Node / JS
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+.pnpm-store/
+
+# Derived files & caches
+*.orig
+*.rej
+
+# Backup files
+*.backup
+*.bak
+
+# Archives
+*.zip
+*.tar.gz
+
+# Temporary files
+tmp/
+temp/
+
+# Ignore user-specific or local editor settings
+# NOTE: .editorconfig is normally a repository-level file you want to commit so
+# editors across the team share consistent settings. If you intentionally want to
+# ignore local or per-user variations, include them here.
+.editorconfig
+
+# Optional: IDE-specific session/state files
+*.swiftsourceinfo
+*.swiftpm
+
+# Misc
+coverage/
+*.gcda
+*.gcno
+
+# AI coding assistants / IDE tool directories
+.adal/
+.agents/
+.augment/
+.bob/
+.claude/
+.codebuddy/
+.commandcode/
+.continue/
+.cortex/
+.crush/
+.factory/
+.goose/
+.iflow/
+.junie/
+.kilocode/
+.kiro/
+.kode/
+.mcpjam/
+.mux/
+.neovate/
+.openhands/
+.pi/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.vibe/
+.windsurf/
+.zencoder/
+
+# Claude Code skills (symlinks + lock file)
+skills/
+skills-lock.json
