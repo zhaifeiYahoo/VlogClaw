@@ -1,5 +1,17 @@
 package wda
 
+// StatusResponse is the WDA response for the /status endpoint.
+type StatusResponse struct {
+	Value StatusValue `json:"value"`
+}
+
+// StatusValue holds WDA readiness metadata.
+type StatusValue struct {
+	Ready    bool   `json:"ready"`
+	Message  string `json:"message"`
+	Platform string `json:"platform,omitempty"`
+}
+
 // SourceResponse is the WDA response for getting the UI source tree.
 type SourceResponse struct {
 	Value string `json:"value"` // XML source tree
@@ -12,8 +24,8 @@ type ScreenshotResponse struct {
 
 // ElementResponse is the WDA response for finding an element.
 type ElementResponse struct {
-	Value    ElementValue `json:"value"`
-	SessionID string      `json:"sessionId"`
+	Value     ElementValue `json:"value"`
+	SessionID string       `json:"sessionId"`
 }
 
 // ElementValue holds element metadata.
@@ -21,9 +33,21 @@ type ElementValue struct {
 	ELEMENT string `json:"ELEMENT"`
 }
 
+// CreateSessionRequest is the body for creating a WDA session.
+type CreateSessionRequest struct {
+	Capabilities        W3CCapabilities `json:"capabilities"`
+	DesiredCapabilities map[string]any  `json:"desiredCapabilities"`
+}
+
+// W3CCapabilities wraps alwaysMatch capabilities in W3C format.
+type W3CCapabilities struct {
+	AlwaysMatch map[string]any `json:"alwaysMatch"`
+}
+
 // SessionResponse is the WDA response for creating a session.
 type SessionResponse struct {
-	Value SessionValue `json:"value"`
+	SessionID string       `json:"sessionId"`
+	Value     SessionValue `json:"value"`
 }
 
 // SessionValue holds session details.
@@ -48,12 +72,12 @@ type TapRequest struct {
 	Y float64 `json:"y"`
 }
 
-// SwipeRequest is the body for a swipe action.
-type SwipeRequest struct {
-	StartX  float64 `json:"startX"`
-	StartY  float64 `json:"startY"`
-	EndX    float64 `json:"endX"`
-	EndY    float64 `json:"endY"`
+// DragRequest is the body for a coordinate drag gesture.
+type DragRequest struct {
+	FromX    float64 `json:"fromX"`
+	FromY    float64 `json:"fromY"`
+	ToX      float64 `json:"toX"`
+	ToY      float64 `json:"toY"`
 	Duration float64 `json:"duration,omitempty"`
 }
 
@@ -66,4 +90,9 @@ type TypeRequest struct {
 type PressRequest struct {
 	Name     string  `json:"name"`
 	Duration float64 `json:"duration,omitempty"`
+}
+
+// LaunchAppRequest is the body for launching an app by bundle identifier.
+type LaunchAppRequest struct {
+	BundleID string `json:"bundleId"`
 }

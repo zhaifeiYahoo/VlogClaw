@@ -10,9 +10,11 @@ import (
 	"syscall"
 
 	"vlogclaw/internal/config"
+	"vlogclaw/internal/device"
 	"vlogclaw/internal/handler"
 	"vlogclaw/internal/llm"
 	"vlogclaw/internal/service"
+	"vlogclaw/internal/sib"
 	"vlogclaw/internal/wda"
 )
 
@@ -24,18 +26,36 @@ func main() {
 		Level: slog.LevelInfo,
 	})))
 
-	// Create WDA client
-	wdaClient := wda.NewClient(cfg.WDA.BaseURL())
+	sibPath := cfg.WDA.SIBPath
+	if sibPath == "" {
+		var err error
+		sibPath, err = sib.FindSib()
+		if err != nil {
+			slog.Error("failed to locate sib", "error", err)
+			os.Exit(1)
+		}
+	}
+
+	sibTool := sib.NewTool(
+		sibPath,
+		sib.WithWorkspacePath(cfg.WDA.WorkspacePath),
+		sib.WithScheme(cfg.WDA.RunnerScheme),
+	)
+	deviceService := device.NewService(sibTool, cfg.WDA.BundleID)
 
 	// Create agent service
-	agent := service.NewAgentService(wdaClient)
+	agent := service.NewAgentService(deviceService)
 	agent.SetLLMFactory(func(model string) (llm.Provider, error) {
 		return llm.NewProvider(cfg.LLM, model)
+	})
+	agent.SetWDAClientFactory(func(baseURL string) service.WDAClient {
+		return wda.NewClient(baseURL)
 	})
 
 	// Setup HTTP server
 	taskHandler := handler.NewTaskHandler(agent)
-	router := handler.SetupRouter(taskHandler)
+	deviceHandler := handler.NewDeviceHandler(deviceService)
+	router := handler.SetupRouter(taskHandler, deviceHandler)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", cfg.Server.Port),
@@ -62,6 +82,7 @@ func main() {
 	if err := srv.Shutdown(ctx); err != nil {
 		slog.Error("forced shutdown", "error", err)
 	}
+	deviceService.StopAll()
 
 	slog.Info("server stopped")
 }

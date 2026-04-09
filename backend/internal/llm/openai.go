@@ -25,7 +25,7 @@ func NewOpenAIProvider(apiKey, model string) *OpenAIProvider {
 
 // Analyze sends a screenshot to OpenAI and returns parsed actions.
 func (p *OpenAIProvider) Analyze(ctx context.Context, req domain.LLMRequest) (*domain.LLMResponse, error) {
-	userMsg := BuildUserMessage(req.Instruction, req.ScreenSize, req.History)
+	userMsg := BuildUserMessage(req)
 
 	params := openai.ChatCompletionNewParams{
 		Model: p.model,

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"vlogclaw/internal/config"
 	"vlogclaw/internal/domain"
@@ -35,6 +36,7 @@ func NewProvider(cfg config.LLMConfig, model string) (Provider, error) {
 
 // parseLLMResponse parses the JSON response from the LLM.
 func parseLLMResponse(content string) (*domain.LLMResponse, error) {
+	content = extractJSONObject(content)
 	var resp struct {
 		Analysis string          `json:"analysis"`
 		Actions  []domain.Action `json:"actions"`
@@ -50,4 +52,17 @@ func parseLLMResponse(content string) (*domain.LLMResponse, error) {
 		Actions:  resp.Actions,
 		Done:     resp.Done,
 	}, nil
+}
+
+func extractJSONObject(content string) string {
+	trimmed := strings.TrimSpace(content)
+	if trimmed == "" {
+		return trimmed
+	}
+	start := strings.Index(trimmed, "{")
+	end := strings.LastIndex(trimmed, "}")
+	if start >= 0 && end > start {
+		return trimmed[start : end+1]
+	}
+	return trimmed
 }

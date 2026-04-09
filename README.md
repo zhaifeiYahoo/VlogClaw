@@ -86,6 +86,31 @@ LLM 服务层 (MLXLocalLLMService / RemoteLLMService)
 - `POST /agent/analyze` — 分析当前屏幕截图
 - `POST /agent/execute` — 执行 agent 自动化循环
 
+### 后端工作流 API
+
+- `POST /api/v1/tasks` — 通用截图驱动自动化任务
+- `POST /api/v1/workflows/xiaohongshu/posts` — 小红书图文发布任务
+
+小红书图文发布请求示例：
+
+```json
+{
+  "model": "openai",
+  "title": "春季通勤穿搭",
+  "body": "今天分享一套适合上班的轻通勤穿搭。",
+  "image_count": 3,
+  "image_selection_hint": "选择设备相册里最新的三张穿搭图片",
+  "publish_mode": "publish",
+  "max_steps": 60
+}
+```
+
+说明：
+
+- 默认会启动小红书 `com.xingin.discover`
+- `image_count` 和 `image_selection_hint` 用于指导 agent 在设备相册中选择图片
+- 当前流程假设待发布图片已经存在于真机相册中
+
 ## 依赖
 
 - **CocoaPods**：Yams (~> 5.0)

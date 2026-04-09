@@ -10,6 +10,7 @@ const (
 	ActionScroll    ActionType = "scroll"
 	ActionPress     ActionType = "press"
 	ActionWait      ActionType = "wait"
+	ActionLaunchApp ActionType = "launch_app"
 	ActionTerminate ActionType = "terminate" // stop the agent loop
 )
 
@@ -23,17 +24,18 @@ type Action struct {
 	Text     string     `json:"text,omitempty"`
 	Duration float64    `json:"duration,omitempty"` // seconds, for wait/press
 	Label    string     `json:"label,omitempty"`    // human-readable description
+	BundleID string     `json:"bundle_id,omitempty"`
 }
 
 // Element represents a UI element found on screen.
 type Element struct {
-	Type      string  `json:"type"`
-	Label     string  `json:"label,omitempty"`
-	Name      string  `json:"name,omitempty"`
-	Value     string  `json:"value,omitempty"`
-	Rect      Rect    `json:"rect"`
-	Enabled   bool    `json:"enabled"`
-	Visible   bool    `json:"visible"`
+	Type    string `json:"type"`
+	Label   string `json:"label,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Value   string `json:"value,omitempty"`
+	Rect    Rect   `json:"rect"`
+	Enabled bool   `json:"enabled"`
+	Visible bool   `json:"visible"`
 }
 
 // Rect represents the bounding rectangle of a UI element.

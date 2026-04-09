@@ -2,6 +2,12 @@ package domain
 
 import "time"
 
+const (
+	WorkflowXiaohongshuPost = "xiaohongshu_post"
+	PublishModeDraft        = "draft"
+	PublishModePublish      = "publish"
+)
+
 // TaskStatus represents the current state of an automation task.
 type TaskStatus string
 
@@ -17,9 +23,16 @@ const (
 type Task struct {
 	ID          string     `json:"id"`
 	Instruction string     `json:"instruction"` // natural language instruction
+	DeviceUDID  string     `json:"device_udid"`
 	BundleID    string     `json:"bundle_id"`   // target app bundle ID
-	Model       string     `json:"model"`       // LLM model to use: "openai", "claude"
+	Workflow    string     `json:"workflow,omitempty"`
+	Model       string     `json:"model"` // LLM model to use: "openai", "claude"
 	MaxSteps    int        `json:"max_steps"`
+	Title       string     `json:"title,omitempty"`
+	Body        string     `json:"body,omitempty"`
+	ImageCount  int        `json:"image_count,omitempty"`
+	ImageHint   string     `json:"image_selection_hint,omitempty"`
+	PublishMode string     `json:"publish_mode,omitempty"`
 	Status      TaskStatus `json:"status"`
 	Steps       []Step     `json:"steps"`
 	Error       string     `json:"error,omitempty"`

@@ -24,7 +24,7 @@ func NewClaudeProvider(apiKey, model string) *ClaudeProvider {
 
 // Analyze sends a screenshot to Claude and returns parsed actions.
 func (p *ClaudeProvider) Analyze(ctx context.Context, req domain.LLMRequest) (*domain.LLMResponse, error) {
-	userMsg := BuildUserMessage(req.Instruction, req.ScreenSize, req.History)
+	userMsg := BuildUserMessage(req)
 
 	params := anthropic.MessageNewParams{
 		MaxTokens: 1024,
