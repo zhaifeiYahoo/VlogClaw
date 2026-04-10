@@ -1,0 +1,46 @@
+name: VlogClawStudio
+options:
+  bundleIdPrefix: com.vlogclaw
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  generateEmptyDirectories: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    PRODUCT_NAME: VlogClawStudio
+    PRODUCT_BUNDLE_IDENTIFIER: com.vlogclaw.VlogClawStudio
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: NO
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: VlogClawStudio
+    INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+    INFOPLIST_KEY_NSPhotoLibraryUsageDescription: VlogClawStudio 需要读取参考图片来生成小红书文案。
+    INFOPLIST_KEY_NSSupportsAutomaticGraphicsSwitching: YES
+    INFOPLIST_KEY_VlogClawRepoRoot: "$(SRCROOT)/.."
+    LD_RUNPATH_SEARCH_PATHS:
+      - "$(inherited)"
+      - "@executable_path/../Frameworks"
+
+targets:
+  VlogClawStudio:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/VlogClawStudio
+    postBuildScripts:
+      - name: Bundle Go Backend
+        script: |
+          set -euo pipefail
+          "$SRCROOT/scripts/build-backend.sh" "$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Backend/vlogclaw"
+    settings:
+      base:
+        PRODUCT_MODULE_NAME: VlogClawStudio
+        SWIFT_EMIT_LOC_STRINGS: NO
+    scheme:
+      testTargets: []
+      gatherCoverageData: false

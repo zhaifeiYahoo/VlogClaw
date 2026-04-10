@@ -1,0 +1,93 @@
+name: VlogClawAgent
+options:
+  bundleIdPrefix: com.vlogclaw
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    ENABLE_BITCODE: NO
+    CLANG_ENABLE_OBJC_ARC: YES
+    GCC_TREAT_WARNINGS_AS_ERRORS: NO
+
+targets:
+  VlogClawAgentLib:
+    type: framework
+    platform: iOS
+    sources:
+      - path: VlogClawAgent/Lib/WebDriverAgent
+        excludes:
+          - "**/Info.plist"
+      - path: VlogClawAgent/Lib/LLM
+      - path: VlogClawAgent/Lib/RemoteLLM
+      - path: VlogClawAgent/Lib/Agent
+      - path: VlogClawAgent/Bridge
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vlogclaw.VlogClawAgentLib
+        PRODUCT_MODULE_NAME: WebDriverAgentLib
+        DEFINES_MODULE: YES
+        INFOPLIST_FILE: VlogClawAgent/Lib/WebDriverAgent/Info.plist
+        HEADER_SEARCH_PATHS:
+          - "$(SRCROOT)/VlogClawAgent/Lib/WebDriverAgent/PrivateHeaders/**"
+          - "$(SDKROOT)/usr/include/libxml2"
+          - "$(SRCROOT)/VlogClawAgent/Lib/WebDriverAgent"
+        FRAMEWORK_SEARCH_PATHS:
+          - "$(inherited)"
+          - "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+          - "$(PLATFORM_DIR)/Developer/Library/PrivateFrameworks"
+        OTHER_LDFLAGS:
+          - "$(inherited)"
+          - "-lxml2"
+          - "-framework"
+          - "XCTest"
+        GCC_PREPROCESSOR_DEFINITIONS:
+          - "$(inherited)"
+          - "XCTEST_AGENT=1"
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS:
+          - "$(inherited)"
+          - "XCTEST_AGENT"
+        RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+          - "@loader_path/Frameworks"
+          - "/Developer/Library/Frameworks"
+        CLANG_ENABLE_MODULES: YES
+        SWIFT_INSTALL_OBJC_HEADER: YES
+        CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION: YES
+        CLANG_WARN__EXIT_TIME_DESTRUCTORS: YES
+    dependencies:
+      - framework: XCTest.framework
+        weak: true
+
+  VlogClawAgentRunner:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: VlogClawAgent/Runner
+        excludes:
+          - "Info.plist"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vlogclaw.VlogClawAgentRunner
+        CODE_SIGN_ENTITLEMENTS: Entitlements/VlogClawAgent.entitlements
+        INFOPLIST_FILE: VlogClawAgent/Runner/Info.plist
+        FRAMEWORK_SEARCH_PATHS:
+          - "$(inherited)"
+          - "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+          - "$(PLATFORM_DIR)/Developer/Library/PrivateFrameworks"
+        RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+          - "@loader_path/Frameworks"
+          - "/Developer/Library/Frameworks"
+          - "/Developer/Library/PrivateFrameworks"
+          - "/System/Developer/Library/PrivateFrameworks"
+          - "/System/Developer/Library/Frameworks"
+    dependencies:
+      - target: VlogClawAgentLib
