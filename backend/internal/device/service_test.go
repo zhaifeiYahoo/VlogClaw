@@ -18,18 +18,24 @@ type fakeTool struct {
 	sessionURL    string
 	mjpegPort     int
 	startedSignal chan struct{}
+	validatedPath string
+	startedPath   string
+	startedBundle string
 }
 
 func (f *fakeTool) GetDevices() ([]sib.DeviceEvent, error) {
 	return f.devices, nil
 }
 
-func (f *fakeTool) ValidateStartConfig(productVersion string) error {
+func (f *fakeTool) ValidateStartConfig(productVersion, projectPath string) error {
+	f.validatedPath = projectPath
 	return f.validateErr
 }
 
-func (f *fakeTool) StartWDA(ctx context.Context, udid, productVersion, bundleID string) (*sib.WDASession, error) {
+func (f *fakeTool) StartWDA(ctx context.Context, udid, productVersion, bundleID, projectPath string) (*sib.WDASession, error) {
 	f.startedUDIDs = append(f.startedUDIDs, udid)
+	f.startedPath = projectPath
+	f.startedBundle = bundleID
 	if f.startedSignal != nil {
 		close(f.startedSignal)
 	}
@@ -66,7 +72,7 @@ func TestConnectDeviceTransitionsToConnected(t *testing.T) {
 	}
 	service := NewService(tool, sib.DefaultWDABundleID)
 
-	if err := service.ConnectDevice(context.Background(), "device-1"); err != nil {
+	if err := service.ConnectDevice(context.Background(), "device-1", "/tmp/WebDriverAgent.xcodeproj", "com.example.WebDriverAgentRunner"); err != nil {
 		t.Fatalf("ConnectDevice() error: %v", err)
 	}
 
@@ -89,6 +95,15 @@ func TestConnectDeviceTransitionsToConnected(t *testing.T) {
 	if info.MJPEGURL != "http://127.0.0.1:9101" {
 		t.Fatalf("unexpected MJPEG URL %q", info.MJPEGURL)
 	}
+	if tool.validatedPath != "/tmp/WebDriverAgent.xcodeproj" {
+		t.Fatalf("unexpected validated path %q", tool.validatedPath)
+	}
+	if tool.startedPath != "/tmp/WebDriverAgent.xcodeproj" {
+		t.Fatalf("unexpected started path %q", tool.startedPath)
+	}
+	if tool.startedBundle != "com.example.WebDriverAgentRunner" {
+		t.Fatalf("unexpected started bundle %q", tool.startedBundle)
+	}
 }
 
 func TestConnectDeviceStoresErrorState(t *testing.T) {
@@ -107,7 +122,7 @@ func TestConnectDeviceStoresErrorState(t *testing.T) {
 	}
 	service := NewService(tool, sib.DefaultWDABundleID)
 
-	if err := service.ConnectDevice(context.Background(), "device-1"); err != nil {
+	if err := service.ConnectDevice(context.Background(), "device-1", "", ""); err != nil {
 		t.Fatalf("ConnectDevice() error: %v", err)
 	}
 

@@ -28,12 +28,14 @@ find_go_binary() {
   fi
 
   local candidate
-  for candidate in "${candidates[@]}"; do
-    if [[ -n "$candidate" && -x "$candidate" ]]; then
-      printf '%s\n' "$candidate"
-      return 0
-    fi
-  done
+  if ((${#candidates[@]} > 0)); then
+    for candidate in "${candidates[@]}"; do
+      if [[ -n "$candidate" && -x "$candidate" ]]; then
+        printf '%s\n' "$candidate"
+        return 0
+      fi
+    done
+  fi
 
   echo "Unable to locate Go toolchain. Set GO_BIN or install Go in /opt/homebrew/bin/go or /usr/local/bin/go." >&2
   return 1
@@ -41,12 +43,20 @@ find_go_binary() {
 
 find_sib_source() {
   local candidates=()
+  local repo_sib="$ROOT_DIR/backend/bin/plugins/sonic-ios-bridge"
+  local repo_alt_sib="$ROOT_DIR/backend/bin/plugins/sib"
 
   if [[ -n "${SIB_SOURCE_PATH:-}" ]]; then
     candidates+=("${SIB_SOURCE_PATH}")
   fi
   if [[ -n "${SIB_PATH:-}" ]]; then
     candidates+=("${SIB_PATH}")
+  fi
+  if [[ -x "$repo_sib" ]]; then
+    candidates+=("$repo_sib")
+  fi
+  if [[ -x "$repo_alt_sib" ]]; then
+    candidates+=("$repo_alt_sib")
   fi
 
   for name in sib sonic-ios-bridge; do
@@ -56,12 +66,14 @@ find_sib_source() {
   done
 
   local candidate
-  for candidate in "${candidates[@]}"; do
-    if [[ -n "$candidate" && -x "$candidate" ]]; then
-      printf '%s\n' "$candidate"
-      return 0
-    fi
-  done
+  if ((${#candidates[@]} > 0)); then
+    for candidate in "${candidates[@]}"; do
+      if [[ -n "$candidate" && -x "$candidate" ]]; then
+        printf '%s\n' "$candidate"
+        return 0
+      fi
+    done
+  fi
 
   return 1
 }

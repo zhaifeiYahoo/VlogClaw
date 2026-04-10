@@ -4,9 +4,14 @@ import Observation
 @MainActor
 @Observable
 final class StudioModel {
+    private static let wdaProjectPathDefaultsKey = "studio.wdaProjectPath"
+    private static let wdaBundleIDDefaultsKey = "studio.wdaBundleID"
+
+    var selectedSection: StudioSection = .dashboard
     var serverURL = "http://127.0.0.1:8080"
     var backendState: BackendRuntimeState = .idle
-    var backendBinaryPath = ""
+    var wdaProjectPath = ""
+    var wdaBundleID = "com.vlogclaw.WebDriverAgentRunner"
     var backendPort = 8080
     var backendLogTail = ""
     var backendPID: Int32?
@@ -30,9 +35,27 @@ final class StudioModel {
 
     @ObservationIgnored private var pollingTask: Task<Void, Never>?
     @ObservationIgnored private let backendController = BackendProcessController()
+    @ObservationIgnored private let userDefaults: UserDefaults
+
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+        self.wdaProjectPath = userDefaults.string(forKey: Self.wdaProjectPathDefaultsKey) ?? ""
+        self.wdaBundleID = userDefaults.string(forKey: Self.wdaBundleIDDefaultsKey) ?? "com.vlogclaw.WebDriverAgentRunner"
+    }
 
     var selectedDevice: StudioDevice? {
         devices.first(where: { $0.id == selectedDeviceID })
+    }
+
+    var connectedDevices: [StudioDevice] {
+        devices.filter { $0.status == .connected }
+    }
+
+    var workflowReadyDevice: StudioDevice? {
+        if let selectedDevice, selectedDevice.status == .connected {
+            return selectedDevice
+        }
+        return connectedDevices.first
     }
 
     var selectedDeviceTasks: [StudioTask] {
@@ -50,6 +73,10 @@ final class StudioModel {
 
     var canSubmitWorkflow: Bool {
         selectedDevice?.status == .connected && !draft.title.isEmpty && !draft.body.isEmpty
+    }
+
+    var canOpenWorkflow: Bool {
+        workflowReadyDevice != nil
     }
 
     func start() {
@@ -110,10 +137,22 @@ final class StudioModel {
 
     func connect(_ device: StudioDevice) async {
         do {
+            selectedDeviceID = device.id
             let client = try apiClient()
-            try await client.connectDevice(udid: device.udid)
-            bannerText = "Connecting \(device.deviceName)"
+            let resolvedWDAProjectPath = applyWDAProjectPath()
+            let resolvedWDABundleID = applyWDABundleID()
+            try await client.connectDevice(
+                udid: device.udid,
+                wdaProjectPath: resolvedWDAProjectPath.isEmpty ? nil : resolvedWDAProjectPath,
+                wdaBundleID: resolvedWDABundleID.isEmpty ? nil : resolvedWDABundleID
+            )
             await refreshAll(showSpinner: false)
+            if selectedDevice?.status == .connected {
+                bannerText = "\(device.deviceName) connected. Workflow ready."
+                openSection(.workflow)
+            } else {
+                bannerText = "Connecting \(device.deviceName)"
+            }
         } catch {
             present(error)
         }
@@ -123,11 +162,18 @@ final class StudioModel {
         do {
             let client = try apiClient()
             try await client.disconnectDevice(udid: device.udid)
-            bannerText = "Disconnected \(device.deviceName)"
             await refreshAll(showSpinner: false)
+            bannerText = "Disconnected \(device.deviceName)"
         } catch {
             present(error)
         }
+    }
+
+    func openSection(_ section: StudioSection) {
+        if section == .workflow, let workflowReadyDevice {
+            selectedDeviceID = workflowReadyDevice.id
+        }
+        selectedSection = section
     }
 
     func generateCopy() async {
@@ -242,7 +288,6 @@ final class StudioModel {
     }
 
     func launchBackend() {
-        backendController.updateBinaryPath(backendBinaryPath)
         backendController.startIfPossible { [weak self] snapshot in
             Task { @MainActor [weak self] in
                 self?.syncBackendSnapshot(snapshot)
@@ -258,16 +303,27 @@ final class StudioModel {
         }
     }
 
-    func applyBackendPath() {
-        backendController.updateBinaryPath(backendBinaryPath)
-        syncBackendSnapshot(backendController.snapshot)
+    @discardableResult
+    func applyWDAProjectPath() -> String {
+        let normalized = wdaProjectPath.trimmingCharacters(in: .whitespacesAndNewlines)
+        wdaProjectPath = normalized
+        userDefaults.set(normalized, forKey: Self.wdaProjectPathDefaultsKey)
+        return normalized
+    }
+
+    @discardableResult
+    func applyWDABundleID() -> String {
+        let normalized = wdaBundleID.trimmingCharacters(in: .whitespacesAndNewlines)
+        wdaBundleID = normalized
+        userDefaults.set(normalized, forKey: Self.wdaBundleIDDefaultsKey)
+        return normalized
     }
 
     private func reconcileSelection() {
         if let selectedDeviceID, devices.contains(where: { $0.id == selectedDeviceID }) {
             return
         }
-        selectedDeviceID = devices.first?.id
+        selectedDeviceID = connectedDevices.first?.id ?? devices.first?.id
     }
 
     private func apiClient() throws -> StudioAPIClient {
@@ -301,7 +357,6 @@ final class StudioModel {
 
     private func syncBackendSnapshot(_ snapshot: BackendProcessController.Snapshot) {
         backendState = snapshot.state
-        backendBinaryPath = snapshot.binaryPath
         backendPort = snapshot.port
         backendLogTail = snapshot.logTail
         backendPID = snapshot.pid

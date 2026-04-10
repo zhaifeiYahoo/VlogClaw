@@ -33,8 +33,8 @@ const (
 // Tool is the subset of sib.Tool used by the device service.
 type Tool interface {
 	GetDevices() ([]sib.DeviceEvent, error)
-	ValidateStartConfig(productVersion string) error
-	StartWDA(ctx context.Context, udid, productVersion, bundleID string) (*sib.WDASession, error)
+	ValidateStartConfig(productVersion, projectPath string) error
+	StartWDA(ctx context.Context, udid, productVersion, bundleID, projectPath string) (*sib.WDASession, error)
 	StopWDA(udid string)
 	StopAll()
 }
@@ -155,7 +155,7 @@ func (s *Service) GetDevice(ctx context.Context, udid string) (Info, error) {
 }
 
 // ConnectDevice marks the device as connecting and starts WDA asynchronously.
-func (s *Service) ConnectDevice(ctx context.Context, udid string) error {
+func (s *Service) ConnectDevice(ctx context.Context, udid, projectPath, bundleID string) error {
 	devices, err := s.tool.GetDevices()
 	if err != nil {
 		return err
@@ -173,7 +173,7 @@ func (s *Service) ConnectDevice(ctx context.Context, udid string) error {
 	if !found {
 		return ErrDeviceNotFound
 	}
-	if err := s.tool.ValidateStartConfig(detail.ProductVersion); err != nil {
+	if err := s.tool.ValidateStartConfig(detail.ProductVersion, projectPath); err != nil {
 		return err
 	}
 
@@ -196,7 +196,7 @@ func (s *Service) ConnectDevice(ctx context.Context, udid string) error {
 		"device_name", detail.DeviceName,
 		"product_version", detail.ProductVersion)
 
-	go s.connect(udid, detail)
+	go s.connect(udid, detail, projectPath, bundleID)
 	return nil
 }
 
@@ -246,14 +246,21 @@ func (s *Service) StopAll() {
 	}
 }
 
-func (s *Service) connect(udid string, detail sib.DeviceDetail) {
+func (s *Service) connect(udid string, detail sib.DeviceDetail, projectPath, bundleID string) {
+	resolvedBundleID := strings.TrimSpace(bundleID)
+	if resolvedBundleID == "" {
+		resolvedBundleID = s.bundleID
+	}
+
 	slog.Info("starting WDA for device",
 		"phase", "start_wda",
 		"udid", udid,
 		"device_name", detail.DeviceName,
-		"product_version", detail.ProductVersion)
+		"product_version", detail.ProductVersion,
+		"project_path", strings.TrimSpace(projectPath),
+		"bundle_id", resolvedBundleID)
 
-	session, err := s.tool.StartWDA(context.Background(), udid, detail.ProductVersion, s.bundleID)
+	session, err := s.tool.StartWDA(context.Background(), udid, detail.ProductVersion, resolvedBundleID, projectPath)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()

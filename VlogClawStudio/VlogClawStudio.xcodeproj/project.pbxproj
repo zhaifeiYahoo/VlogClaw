@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0A371FFBC21D3F187AB1AB58 /* StudioRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AFC7FBF9B5BB017E0C9682 /* StudioRootView.swift */; };
+		12A7B0E4F0D14F4E8F31A102 /* StudioSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A7B0E4F0D14F4E8F31A101 /* StudioSidebarView.swift */; };
+		12A7B0E4F0D14F4E8F31A202 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A7B0E4F0D14F4E8F31A201 /* DashboardView.swift */; };
+		12A7B0E4F0D14F4E8F31A302 /* WorkflowWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A7B0E4F0D14F4E8F31A301 /* WorkflowWorkspaceView.swift */; };
 		27045155B43A822FBA449582 /* StudioTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6849A643DA49203608A0CC1 /* StudioTheme.swift */; };
 		7A360E673FF44CDEB596641C /* DeviceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCB89963102C7DDD6999B8 /* DeviceSidebarView.swift */; };
 		846794FBB5E6354296849194 /* DevicePreviewBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D823961ACF90605D4E537CD /* DevicePreviewBoard.swift */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		12A7B0E4F0D14F4E8F31A101 /* StudioSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioSidebarView.swift; sourceTree = "<group>"; };
+		12A7B0E4F0D14F4E8F31A201 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		12A7B0E4F0D14F4E8F31A301 /* WorkflowWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowWorkspaceView.swift; sourceTree = "<group>"; };
 		147ABAB0E1826ED3A926A385 /* MJPEGWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MJPEGWebView.swift; sourceTree = "<group>"; };
 		1DDCB89963102C7DDD6999B8 /* DeviceSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSidebarView.swift; sourceTree = "<group>"; };
 		2B903AAA5752FBA0F73CCDBF /* StudioAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioAPIClient.swift; sourceTree = "<group>"; };
@@ -40,10 +46,28 @@
 			isa = PBXGroup;
 			children = (
 				84E6F975E0C62DCED6E0CEF1 /* Assistant */,
+				12A7B0E4F0D14F4E8F31A200 /* Dashboard */,
 				76E1BD8BE949696C0A72AEA1 /* Preview */,
 				612AF441F6EFB100731FFBCA /* Sidebar */,
+				12A7B0E4F0D14F4E8F31A300 /* Workflow */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		12A7B0E4F0D14F4E8F31A200 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				12A7B0E4F0D14F4E8F31A201 /* DashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		12A7B0E4F0D14F4E8F31A300 /* Workflow */ = {
+			isa = PBXGroup;
+			children = (
+				12A7B0E4F0D14F4E8F31A301 /* WorkflowWorkspaceView.swift */,
+			);
+			path = Workflow;
 			sourceTree = "<group>";
 		};
 		1E7C390375E06F19FA7ABF87 /* API */ = {
@@ -66,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				1DDCB89963102C7DDD6999B8 /* DeviceSidebarView.swift */,
+				12A7B0E4F0D14F4E8F31A101 /* StudioSidebarView.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -224,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12A7B0E4F0D14F4E8F31A202 /* DashboardView.swift in Sources */,
 				C09D362A0F5FA54987C4A341 /* AppModel.swift in Sources */,
 				C2A83DB7792F38F265A353B5 /* AssistantPanelView.swift in Sources */,
 				E1868D948ACC757D17C8D2AC /* BackendProcessController.swift in Sources */,
@@ -232,9 +258,11 @@
 				B47E2AA8E876EC8B6C42D5B0 /* MJPEGWebView.swift in Sources */,
 				93B8EC7E4443E5D23BED06BE /* StudioAPIClient.swift in Sources */,
 				C9513E7328DF9B03FBF6F919 /* StudioModels.swift in Sources */,
+				12A7B0E4F0D14F4E8F31A102 /* StudioSidebarView.swift in Sources */,
 				0A371FFBC21D3F187AB1AB58 /* StudioRootView.swift in Sources */,
 				27045155B43A822FBA449582 /* StudioTheme.swift in Sources */,
 				C3369B3CD92C54F9B5116116 /* VlogClawStudioApp.swift in Sources */,
+				12A7B0E4F0D14F4E8F31A302 /* WorkflowWorkspaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

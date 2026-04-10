@@ -10,7 +10,7 @@ struct DevicePreviewBoard: View {
 
                 ZStack {
                     RoundedRectangle(cornerRadius: 28, style: .continuous)
-                        .fill(Color.black.opacity(0.28))
+                        .fill(StudioTheme.panelStrong)
                         .overlay(
                             RoundedRectangle(cornerRadius: 28, style: .continuous)
                                 .stroke(StudioTheme.border, lineWidth: 1)
@@ -134,7 +134,7 @@ struct DevicePreviewBoard: View {
                             .frame(width: 250, alignment: .leading)
                             .background(
                                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                                    .fill(StudioTheme.panelRaised.opacity(0.88))
+                                    .fill(Color.white.opacity(0.82))
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: 18, style: .continuous)
@@ -153,7 +153,7 @@ struct DevicePreviewBoard: View {
             SectionHeader(
                 eyebrow: "Live View",
                 title: "No iPhone Selected",
-                subtitle: "Pick a device from the left rail. Once connected, this canvas turns into a real-time WDA MJPEG monitor."
+                subtitle: "先回 Dashboard 连接一台 iPhone，成功后这里会直接变成实时的 WDA MJPEG 监视画布。"
             )
             Spacer()
         }

@@ -1,16 +1,28 @@
 import SwiftUI
 
 enum StudioTheme {
-    static let background = Color(red: 0.035, green: 0.043, blue: 0.063)
-    static let panel = Color(red: 0.078, green: 0.094, blue: 0.129)
-    static let panelRaised = Color(red: 0.102, green: 0.118, blue: 0.161)
-    static let border = Color.white.opacity(0.11)
-    static let primaryText = Color(red: 0.96, green: 0.98, blue: 1.0)
-    static let secondaryText = Color(red: 0.61, green: 0.67, blue: 0.77)
-    static let accent = Color(red: 0.44, green: 0.88, blue: 1.0)
-    static let warmAccent = Color(red: 1.0, green: 0.74, blue: 0.47)
-    static let success = Color(red: 0.43, green: 0.9, blue: 0.63)
-    static let danger = Color(red: 1.0, green: 0.44, blue: 0.42)
+    static let background = Color(red: 0.95, green: 0.98, blue: 1.0)
+    static let backgroundTint = Color(red: 0.88, green: 0.95, blue: 0.97)
+    static let sidebarPanel = Color.white.opacity(0.76)
+    static let panel = Color.white.opacity(0.88)
+    static let panelRaised = Color(red: 0.97, green: 0.98, blue: 1.0)
+    static let panelStrong = Color(red: 0.92, green: 0.95, blue: 0.98)
+    static let border = Color(red: 0.79, green: 0.86, blue: 0.91)
+    static let borderStrong = Color(red: 0.69, green: 0.78, blue: 0.85)
+    static let primaryText = Color(red: 0.10, green: 0.16, blue: 0.22)
+    static let secondaryText = Color(red: 0.32, green: 0.41, blue: 0.50)
+    static let tertiaryText = Color(red: 0.48, green: 0.56, blue: 0.64)
+    static let accent = Color(red: 0.08, green: 0.72, blue: 0.65)
+    static let accentSoft = Color(red: 0.84, green: 0.97, blue: 0.95)
+    static let warmAccent = Color(red: 0.96, green: 0.49, blue: 0.12)
+    static let warmSoft = Color(red: 1.0, green: 0.94, blue: 0.88)
+    static let success = Color(red: 0.20, green: 0.71, blue: 0.43)
+    static let successSoft = Color(red: 0.89, green: 0.97, blue: 0.92)
+    static let danger = Color(red: 0.85, green: 0.33, blue: 0.32)
+    static let dangerSoft = Color(red: 0.98, green: 0.91, blue: 0.90)
+    static let shadow = Color(red: 0.25, green: 0.37, blue: 0.50).opacity(0.12)
+    static let accentForeground = Color.white
+    static let warmForeground = Color.white
 
     static func statusColor(_ status: DeviceConnectionState) -> Color {
         switch status {
@@ -57,9 +69,9 @@ struct StudioBackdrop: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color.black,
-                    Color(red: 0.04, green: 0.05, blue: 0.08),
-                    Color(red: 0.01, green: 0.06, blue: 0.09),
+                    StudioTheme.background,
+                    Color.white,
+                    StudioTheme.backgroundTint,
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -77,43 +89,52 @@ struct StudioBackdrop: View {
                         path.addLine(to: CGPoint(x: proxy.size.width, y: y))
                     }
                 }
-                .stroke(Color.white.opacity(0.035), lineWidth: 0.5)
+                .stroke(StudioTheme.border.opacity(0.24), lineWidth: 0.5)
             }
 
             Circle()
-                .fill(StudioTheme.accent.opacity(0.16))
-                .frame(width: 360, height: 360)
-                .blur(radius: 80)
-                .offset(x: 280, y: -260)
+                .fill(StudioTheme.accentSoft.opacity(0.9))
+                .frame(width: 420, height: 420)
+                .blur(radius: 90)
+                .offset(x: 320, y: -240)
 
             Circle()
-                .fill(StudioTheme.warmAccent.opacity(0.12))
-                .frame(width: 280, height: 280)
+                .fill(StudioTheme.warmSoft.opacity(0.92))
+                .frame(width: 320, height: 320)
                 .blur(radius: 90)
-                .offset(x: -420, y: 280)
+                .offset(x: -420, y: 260)
+
+            RoundedRectangle(cornerRadius: 80, style: .continuous)
+                .fill(Color.white.opacity(0.28))
+                .frame(width: 580, height: 340)
+                .blur(radius: 50)
+                .offset(x: -220, y: -160)
         }
         .ignoresSafeArea()
     }
 }
 
 struct StudioPanelModifier: ViewModifier {
+    let fill: Color
+    let radius: CGFloat
+
     func body(content: Content) -> some View {
         content
             .background(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(StudioTheme.panel.opacity(0.94))
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
+                    .fill(fill)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
                     .stroke(StudioTheme.border, lineWidth: 1)
             )
-            .shadow(color: Color.black.opacity(0.32), radius: 28, x: 0, y: 16)
+            .shadow(color: StudioTheme.shadow, radius: 22, x: 0, y: 16)
     }
 }
 
 extension View {
-    func studioPanel() -> some View {
-        modifier(StudioPanelModifier())
+    func studioPanel(fill: Color = StudioTheme.panel, radius: CGFloat = 24) -> some View {
+        modifier(StudioPanelModifier(fill: fill, radius: radius))
     }
 }
 
@@ -129,7 +150,7 @@ struct SectionHeader: View {
                 .foregroundStyle(StudioTheme.accent)
                 .tracking(1.2)
             Text(title)
-                .font(.custom("Avenir Next", size: 24))
+                .font(.custom("Avenir Next", size: 26))
                 .fontWeight(.semibold)
                 .foregroundStyle(StudioTheme.primaryText)
             Text(subtitle)
@@ -156,11 +177,11 @@ struct StatusBadge: View {
         .padding(.vertical, 8)
         .background(
             Capsule()
-                .fill(color.opacity(0.16))
+                .fill(color.opacity(0.12))
         )
         .overlay(
             Capsule()
-                .stroke(color.opacity(0.42), lineWidth: 1)
+                .stroke(color.opacity(0.24), lineWidth: 1)
         )
     }
 }
@@ -168,6 +189,7 @@ struct StatusBadge: View {
 struct ActionButtonStyle: ButtonStyle {
     let fill: Color
     let foreground: Color
+    var stroke: Color = StudioTheme.border
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -181,7 +203,8 @@ struct ActionButtonStyle: ButtonStyle {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(StudioTheme.border.opacity(0.7), lineWidth: 1)
+                    .stroke(stroke, lineWidth: 1)
             )
+            .shadow(color: StudioTheme.shadow.opacity(configuration.isPressed ? 0.08 : 0.18), radius: 12, x: 0, y: 8)
     }
 }

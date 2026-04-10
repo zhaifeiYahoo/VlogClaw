@@ -26,6 +26,9 @@ type fakeDeviceHandlerService struct {
 	getErr        error
 	connectErr    error
 	disconnectErr error
+	connectUDID   string
+	connectPath   string
+	connectBundle string
 }
 
 func (f *fakeDeviceHandlerService) ListDevices(ctx context.Context) ([]device.Info, error) {
@@ -36,7 +39,10 @@ func (f *fakeDeviceHandlerService) GetDevice(ctx context.Context, udid string) (
 	return f.getResponse, f.getErr
 }
 
-func (f *fakeDeviceHandlerService) ConnectDevice(ctx context.Context, udid string) error {
+func (f *fakeDeviceHandlerService) ConnectDevice(ctx context.Context, udid, projectPath, bundleID string) error {
+	f.connectUDID = udid
+	f.connectPath = projectPath
+	f.connectBundle = bundleID
 	return f.connectErr
 }
 
@@ -123,11 +129,22 @@ func TestDeviceRoutes(t *testing.T) {
 	})
 
 	t.Run("connect", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodPost, "/api/v1/devices/device-1/connect", nil)
+		body := bytes.NewBufferString(`{"wda_project_path":"/tmp/WebDriverAgent.xcodeproj","wda_bundle_id":"com.example.WebDriverAgentRunner"}`)
+		req := httptest.NewRequest(http.MethodPost, "/api/v1/devices/device-1/connect", body)
+		req.Header.Set("Content-Type", "application/json")
 		rec := httptest.NewRecorder()
 		router.ServeHTTP(rec, req)
 		if rec.Code != http.StatusAccepted {
 			t.Fatalf("expected 202, got %d", rec.Code)
+		}
+		if deviceSvc.connectUDID != "device-1" {
+			t.Fatalf("unexpected connect UDID %q", deviceSvc.connectUDID)
+		}
+		if deviceSvc.connectPath != "/tmp/WebDriverAgent.xcodeproj" {
+			t.Fatalf("unexpected connect path %q", deviceSvc.connectPath)
+		}
+		if deviceSvc.connectBundle != "com.example.WebDriverAgentRunner" {
+			t.Fatalf("unexpected connect bundle %q", deviceSvc.connectBundle)
 		}
 	})
 

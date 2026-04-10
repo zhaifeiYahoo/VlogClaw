@@ -58,6 +58,11 @@ struct AssistantPanelView: View {
             }
         }
         .frame(height: 240)
+        .padding(4)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color.white.opacity(0.54))
+        )
     }
 
     private var editorSection: some View {
@@ -104,7 +109,7 @@ struct AssistantPanelView: View {
                     Label(model.isGeneratingCopy ? "Generating…" : "Generate Copy", systemImage: "sparkles.rectangle.stack")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(ActionButtonStyle(fill: StudioTheme.accent, foreground: .black))
+                .buttonStyle(ActionButtonStyle(fill: StudioTheme.accent, foreground: StudioTheme.accentForeground, stroke: StudioTheme.accent.opacity(0.18)))
                 .disabled(model.isGeneratingCopy)
             }
         }
@@ -227,7 +232,7 @@ struct AssistantPanelView: View {
                 Label(model.isSubmittingWorkflow ? "Submitting…" : "Send To Device", systemImage: "paperplane.fill")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(ActionButtonStyle(fill: StudioTheme.warmAccent, foreground: .black))
+            .buttonStyle(ActionButtonStyle(fill: StudioTheme.warmAccent, foreground: StudioTheme.warmForeground, stroke: StudioTheme.warmAccent.opacity(0.18)))
             .disabled(!model.canSubmitWorkflow || model.isSubmittingWorkflow)
         }
     }
@@ -249,7 +254,7 @@ struct AssistantPanelView: View {
         .padding(14)
         .background(
             RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .fill(accent)
+                        .fill(accent)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 18, style: .continuous)

@@ -19,7 +19,7 @@ open VlogClawAgent.xcworkspace
 
 # 命令行构建
 xcodebuild -workspace VlogClawAgent.xcworkspace -scheme VlogClawAgentLib -destination 'generic/platform=iOS' build
-xcodebuild -workspace VlogClawAgent.xcworkspace -scheme VlogClawAgentRunner -destination 'generic/platform=iOS' build
+xcodebuild -workspace VlogClawAgent.xcworkspace -scheme WebDriverAgentRunner -destination 'generic/platform=iOS' build
 ```
 
 项目使用 `project.yml`（XcodeGen 规范）生成 Xcode 工程。修改 `project.yml` 后需执行 `xcodegen generate` 重新生成。
@@ -28,7 +28,7 @@ xcodebuild -workspace VlogClawAgent.xcworkspace -scheme VlogClawAgentRunner -des
 
 两个 target：
 - **VlogClawAgentLib**（framework）— 全部核心逻辑，编译为 `WebDriverAgentLib` 模块
-- **VlogClawAgentRunner**（UI testing bundle）— 轻量入口，启动 WDA 服务器
+- **WebDriverAgentRunner**（UI testing bundle）— 轻量入口，启动 WDA 服务器
 
 ### 源码结构（`VlogClawAgent/VlogClawAgent/`）
 

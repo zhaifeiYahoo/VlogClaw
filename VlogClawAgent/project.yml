@@ -65,7 +65,7 @@ targets:
       - framework: XCTest.framework
         weak: true
 
-  VlogClawAgentRunner:
+  WebDriverAgentRunner:
     type: bundle.ui-testing
     platform: iOS
     sources:
@@ -74,7 +74,7 @@ targets:
           - "Info.plist"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.vlogclaw.VlogClawAgentRunner
+        PRODUCT_BUNDLE_IDENTIFIER: com.vlogclaw.WebDriverAgentRunner
         CODE_SIGN_ENTITLEMENTS: Entitlements/VlogClawAgent.entitlements
         INFOPLIST_FILE: VlogClawAgent/Runner/Info.plist
         FRAMEWORK_SEARCH_PATHS:

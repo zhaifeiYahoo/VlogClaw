@@ -46,6 +46,45 @@ func TestFindSibFallsBackToCandidatePaths(t *testing.T) {
 	}
 }
 
+func TestFindIProxyPrefersEnvOverride(t *testing.T) {
+	dir := t.TempDir()
+	binary := filepath.Join(dir, "iproxy")
+	if err := os.WriteFile(binary, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
+		t.Fatalf("write binary: %v", err)
+	}
+
+	t.Setenv("IPROXY_PATH", binary)
+	t.Setenv("PATH", "")
+
+	got, err := FindIProxy()
+	if err != nil {
+		t.Fatalf("FindIProxy() error: %v", err)
+	}
+	if got != binary {
+		t.Fatalf("got %q, want %q", got, binary)
+	}
+}
+
+func TestFindIProxyFallsBackToCandidatePaths(t *testing.T) {
+	dir := t.TempDir()
+	binary := filepath.Join(dir, "iproxy")
+	if err := os.WriteFile(binary, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
+		t.Fatalf("write binary: %v", err)
+	}
+
+	t.Setenv("IPROXY_PATH", "")
+	t.Setenv("PATH", "")
+	t.Setenv("IPROXY_CANDIDATE_PATHS", binary)
+
+	got, err := FindIProxy()
+	if err != nil {
+		t.Fatalf("FindIProxy() error: %v", err)
+	}
+	if got != binary {
+		t.Fatalf("got %q, want %q", got, binary)
+	}
+}
+
 func TestGetDevicesParsesOnlineDevices(t *testing.T) {
 	dir := t.TempDir()
 	binary := filepath.Join(dir, "sib")
@@ -81,12 +120,12 @@ func TestStartWDAChoosesStartupPathByIOSVersion(t *testing.T) {
 		started = "sib"
 		return &WDASession{UDID: udid, WDAURL: "http://127.0.0.1:8100"}, nil
 	}
-	tool.startWDAViaXcodebuildFn = func(ctx context.Context, udid string, wdaPort, mjpegPort int) (*WDASession, error) {
+	tool.startWDAViaXcodebuildFn = func(ctx context.Context, udid, projectPath string, wdaPort, mjpegPort int) (*WDASession, error) {
 		started = "xcodebuild"
 		return &WDASession{UDID: udid, WDAURL: "http://127.0.0.1:8101"}, nil
 	}
 
-	if _, err := tool.StartWDA(context.Background(), "udid-16", "16.7", DefaultWDABundleID); err != nil {
+	if _, err := tool.StartWDA(context.Background(), "udid-16", "16.7", DefaultWDABundleID, ""); err != nil {
 		t.Fatalf("StartWDA(iOS 16) error: %v", err)
 	}
 	if started != "sib" {
@@ -99,7 +138,7 @@ func TestStartWDAChoosesStartupPathByIOSVersion(t *testing.T) {
 	}
 	tool.workspacePath = workspace
 
-	if _, err := tool.StartWDA(context.Background(), "udid-17", "17.4", DefaultWDABundleID); err != nil {
+	if _, err := tool.StartWDA(context.Background(), "udid-17", "17.4", DefaultWDABundleID, ""); err != nil {
 		t.Fatalf("StartWDA(iOS 17) error: %v", err)
 	}
 	if started != "xcodebuild" {
@@ -109,7 +148,20 @@ func TestStartWDAChoosesStartupPathByIOSVersion(t *testing.T) {
 
 func TestValidateStartConfigRequiresWorkspaceForIOS17(t *testing.T) {
 	tool := NewTool("/tmp/sib")
-	if err := tool.ValidateStartConfig("17.0"); err == nil {
+	if err := tool.ValidateStartConfig("17.0", ""); err == nil {
 		t.Fatal("expected validation error for missing workspace")
+	}
+}
+
+func TestValidateStartConfigAcceptsProjectDirectoryForIOS17(t *testing.T) {
+	projectRoot := t.TempDir()
+	project := filepath.Join(projectRoot, "WebDriverAgent.xcodeproj")
+	if err := os.Mkdir(project, 0o755); err != nil {
+		t.Fatalf("mkdir project: %v", err)
+	}
+
+	tool := NewTool("/tmp/sib")
+	if err := tool.ValidateStartConfig("17.0", projectRoot); err != nil {
+		t.Fatalf("ValidateStartConfig() error: %v", err)
 	}
 }

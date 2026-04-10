@@ -26,6 +26,8 @@ type WDAConfig struct {
 	Host          string
 	Port          int
 	SIBPath       string
+	IProxyPath    string
+	ProjectPath   string
 	WorkspacePath string
 	RunnerScheme  string
 	BundleID      string
@@ -60,9 +62,11 @@ func Load() *Config {
 			Host:          getEnv("WDA_HOST", "localhost"),
 			Port:          getEnvInt("WDA_PORT", 8100),
 			SIBPath:       getEnv("SIB_PATH", ""),
+			IProxyPath:    getEnv("IPROXY_PATH", ""),
+			ProjectPath:   getEnv("WDA_XCODE_PROJECT_PATH", ""),
 			WorkspacePath: getEnv("WDA_XCODE_WORKSPACE_PATH", defaultWorkspacePath()),
-			RunnerScheme:  getEnv("WDA_RUNNER_SCHEME", "VlogClawAgentRunner"),
-			BundleID:      getEnv("WDA_RUNNER_BUNDLE_ID", "com.vlogclaw.VlogClawAgentRunner"),
+			RunnerScheme:  getEnv("WDA_RUNNER_SCHEME", "WebDriverAgentRunner"),
+			BundleID:      getEnv("WDA_RUNNER_BUNDLE_ID", "com.vlogclaw.WebDriverAgentRunner"),
 		},
 		LLM: LLMConfig{
 			OpenAIKey:   getEnv("OPENAI_API_KEY", ""),

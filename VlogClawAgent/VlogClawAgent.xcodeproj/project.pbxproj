@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -70,7 +70,7 @@
 		23DDA6A21585B4EF2F9C1D73 /* _XCTestCaseInterruptionException.h in Headers */ = {isa = PBXBuildFile; fileRef = BC43D9BC2E640FEFFF980F9B /* _XCTestCaseInterruptionException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		241E802F6F9081ED44FDCA06 /* UIGestureRecognizer-RecordingAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B41D67E863AACDA81942BBC5 /* UIGestureRecognizer-RecordingAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2643E73F97F13DDEA36F148A /* FBW3CActionsHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = F66AC675FCDB241AAE2F6A9C /* FBW3CActionsHelpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		26C4051B76E68CCB74FE1906 /* VlogClawAgentLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE8B2B3D36381E0AB560ECF /* VlogClawAgentLib.framework */; };
+		26C4051B76E68CCB74FE1906 /* .framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE8B2B3D36381E0AB560ECF /* .framework */; };
 		277EAA50BADCFCF402820AAE /* XCUIElement+FBUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 085602981D60435B4510386B /* XCUIElement+FBUtilities.m */; };
 		27D39BC3ED4255DFF938CCC3 /* NSString-XCTAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 849CE89F2811B3E0A4210785 /* NSString-XCTAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27E84BC4ADB34ECF488DE13A /* XCTestObservation-Protocol.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5FE665FDFA80C6943CCB2E /* XCTestObservation-Protocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -199,7 +199,7 @@
 		7AADB8E084C1C7AD6FF1EAD9 /* WorkflowPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E64040925DE605AC2136178 /* WorkflowPlanner.swift */; };
 		7BB58323CF435EBBC3EFBE76 /* FBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 852C7DA82521FB5149463FC8 /* FBSession.m */; };
 		7C188FA3F6AD16111B5CDED8 /* XCApplicationMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = D7F230ECB02DE7D866B545DB /* XCApplicationMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7D07679BC73D29F42B5CD00A /* VlogClawAgentLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE8B2B3D36381E0AB560ECF /* VlogClawAgentLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7D07679BC73D29F42B5CD00A /* .framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE8B2B3D36381E0AB560ECF /* .framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7D672382FEEF9B300B9D7684 /* XCUIElement+FBResolve.h in Headers */ = {isa = PBXBuildFile; fileRef = 27706C8CD5C9BEDF5755FD6D /* XCUIElement+FBResolve.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DBDE388B85B2AE9B9AA8361 /* XCTAsyncActivity-Protocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E76EEBE71B9B18481C97CCF0 /* XCTAsyncActivity-Protocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E215496FE7269198ABA35FF /* FBScreenRecordingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C27F90052368378946689A /* FBScreenRecordingRequest.m */; };
@@ -435,7 +435,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7D07679BC73D29F42B5CD00A /* VlogClawAgentLib.framework in Embed Frameworks */,
+				7D07679BC73D29F42B5CD00A /* .framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,7 +541,7 @@
 		3E4EEBE465AB8C4575DC9C90 /* _XCTWaiterImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _XCTWaiterImpl.h; sourceTree = "<group>"; };
 		3E64040925DE605AC2136178 /* WorkflowPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowPlanner.swift; sourceTree = "<group>"; };
 		3E72A9C2DEC0AA88C734B7D2 /* UILongPressGestureRecognizer-RecordingAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILongPressGestureRecognizer-RecordingAdditions.h"; sourceTree = "<group>"; };
-		3EE8B2B3D36381E0AB560ECF /* VlogClawAgentLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VlogClawAgentLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EE8B2B3D36381E0AB560ECF /* .framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = .framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FADA4D01DFDF3C44DFB5DB8 /* UITapGestureRecognizer-RecordingAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITapGestureRecognizer-RecordingAdditions.h"; sourceTree = "<group>"; };
 		401D85072091EDBC46CAA47F /* PromptBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBuilder.swift; sourceTree = "<group>"; };
 		4097661D6568EB7BC6871908 /* XCApplicationMonitor_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XCApplicationMonitor_iOS.h; sourceTree = "<group>"; };
@@ -655,7 +655,7 @@
 		8432736F09BA77E7C0010412 /* FBScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FBScreen.m; sourceTree = "<group>"; };
 		84996A9EC3AFFB922AB1BB9D /* _XCTestObservationCenterImplementation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _XCTestObservationCenterImplementation.h; sourceTree = "<group>"; };
 		849CE89F2811B3E0A4210785 /* NSString-XCTAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString-XCTAdditions.h"; sourceTree = "<group>"; };
-		84DD5E6514F7923E5D3FA65E /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		84DD5E6514F7923E5D3FA65E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		84F7C3A0C0D96BE9BAF96030 /* HTTPDataResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPDataResponse.m; sourceTree = "<group>"; };
 		852C7DA82521FB5149463FC8 /* FBSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FBSession.m; sourceTree = "<group>"; };
 		8554CCC4253A1C6DA5364D4C /* XCUIElement+FBCaching.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "XCUIElement+FBCaching.m"; sourceTree = "<group>"; };
@@ -784,7 +784,7 @@
 		C9B04147A7FDD105D1D02385 /* XCUIElement+FBTVFocuse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XCUIElement+FBTVFocuse.h"; sourceTree = "<group>"; };
 		CBF620C82E20CF966E72AAD0 /* XCUIElement+FBMinMax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XCUIElement+FBMinMax.h"; sourceTree = "<group>"; };
 		CC5798EF369C390310D6FC90 /* XCTestConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XCTestConfiguration.h; sourceTree = "<group>"; };
-		CC784DB8C4BE50E8B95B0119 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		CC784DB8C4BE50E8B95B0119 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CF50FBA86F357B35A5A9C1C8 /* XCTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XCTest.h; sourceTree = "<group>"; };
 		D0C5B0E03FF2F44A7694BBA4 /* Route.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
 		D13B94E22C46676C0A0C1D01 /* FBSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBSettings.h; sourceTree = "<group>"; };
@@ -826,7 +826,7 @@
 		EBDD56078E8A047AAC100700 /* XCTestPrivateSymbols.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XCTestPrivateSymbols.m; sourceTree = "<group>"; };
 		EC179FE2D911394EE4E1EA7A /* FBTVNavigationTracker-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FBTVNavigationTracker-Private.h"; sourceTree = "<group>"; };
 		EC4907C7ADC77D63A3371D07 /* DDNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDNumber.h; sourceTree = "<group>"; };
-		ECE85F17D364C49845B2B809 /* VlogClawAgentRunner.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VlogClawAgentRunner.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECE85F17D364C49845B2B809 /* .xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = .xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED58DCA5A960EA295A2E8C6B /* RouteResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteResponse.h; sourceTree = "<group>"; };
 		EDB450AFB678729A1CBC125B /* XCUIElement+FBVisibleFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XCUIElement+FBVisibleFrame.h"; sourceTree = "<group>"; };
 		EE94F27AA24418474456B5D6 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
@@ -863,7 +863,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26C4051B76E68CCB74FE1906 /* VlogClawAgentLib.framework in Frameworks */,
+				26C4051B76E68CCB74FE1906 /* .framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,8 +1357,8 @@
 		C22F2701819C134CD1D5510A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3EE8B2B3D36381E0AB560ECF /* VlogClawAgentLib.framework */,
-				ECE85F17D364C49845B2B809 /* VlogClawAgentRunner.xctest */,
+				3EE8B2B3D36381E0AB560ECF /* .framework */,
+				ECE85F17D364C49845B2B809 /* .xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1377,7 +1377,6 @@
 				857B3C82D3502AB3B2A2072F /* Pods-VlogClawAgentLib.debug.xcconfig */,
 				102A6962869719413B282A87 /* Pods-VlogClawAgentLib.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -1819,7 +1818,7 @@
 			);
 			name = VlogClawAgentLib;
 			productName = VlogClawAgentLib;
-			productReference = 3EE8B2B3D36381E0AB560ECF /* VlogClawAgentLib.framework */;
+			productReference = 3EE8B2B3D36381E0AB560ECF /* .framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EBDB9B8A60718F64922C872C /* VlogClawAgentRunner */ = {
@@ -1837,7 +1836,7 @@
 			);
 			name = VlogClawAgentRunner;
 			productName = VlogClawAgentRunner;
-			productReference = ECE85F17D364C49845B2B809 /* VlogClawAgentRunner.xctest */;
+			productReference = ECE85F17D364C49845B2B809 /* .xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -1848,8 +1847,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 97B78A2040D873702DC2F5BA /* Build configuration list for PBXProject "VlogClawAgent" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -2084,13 +2081,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Entitlements/VlogClawAgent.entitlements;
+				DEVELOPMENT_TEAM = 5HG552575G;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(PLATFORM_DIR)/Developer/Library/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = VlogClawAgent/Runner/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vlogclaw.VlogClawAgentRunner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kk.WdaLibRunner;
 				RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /Developer/Library/Frameworks /Developer/Library/PrivateFrameworks /System/Developer/Library/PrivateFrameworks /System/Developer/Library/Frameworks";
 			};
 			name = Debug;
@@ -2099,13 +2097,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Entitlements/VlogClawAgent.entitlements;
+				DEVELOPMENT_TEAM = 5HG552575G;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(PLATFORM_DIR)/Developer/Library/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = VlogClawAgent/Runner/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vlogclaw.VlogClawAgentRunner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kk.WdaLibRunner;
 				RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /Developer/Library/Frameworks /Developer/Library/PrivateFrameworks /System/Developer/Library/PrivateFrameworks /System/Developer/Library/Frameworks";
 			};
 			name = Release;
@@ -2117,7 +2116,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = G4WD8W499B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -2140,7 +2141,7 @@
 					"-framework",
 					XCTest,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vlogclaw.VlogClawAgentLib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kk.WdaLib;
 				PRODUCT_MODULE_NAME = WebDriverAgentLib;
 				RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /Developer/Library/Frameworks";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) XCTEST_AGENT";
@@ -2167,7 +2168,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = G4WD8W499B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -2190,7 +2193,7 @@
 					"-framework",
 					XCTest,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vlogclaw.VlogClawAgentLib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kk.WdaLib;
 				PRODUCT_MODULE_NAME = WebDriverAgentLib;
 				RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks /Developer/Library/Frameworks";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) XCTEST_AGENT";

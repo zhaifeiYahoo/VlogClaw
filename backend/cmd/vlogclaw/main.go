@@ -40,6 +40,8 @@ func main() {
 	if deviceTool == nil {
 		deviceTool = sib.NewTool(
 			sibPath,
+			sib.WithIProxyPath(cfg.WDA.IProxyPath),
+			sib.WithProjectPath(cfg.WDA.ProjectPath),
 			sib.WithWorkspacePath(cfg.WDA.WorkspacePath),
 			sib.WithScheme(cfg.WDA.RunnerScheme),
 		)
@@ -99,11 +101,11 @@ func (t *unavailableTool) GetDevices() ([]sib.DeviceEvent, error) {
 	return nil, fmt.Errorf("device bridge unavailable: %w", t.err)
 }
 
-func (t *unavailableTool) ValidateStartConfig(productVersion string) error {
+func (t *unavailableTool) ValidateStartConfig(productVersion, projectPath string) error {
 	return fmt.Errorf("device bridge unavailable: %w", t.err)
 }
 
-func (t *unavailableTool) StartWDA(ctx context.Context, udid, productVersion, bundleID string) (*sib.WDASession, error) {
+func (t *unavailableTool) StartWDA(ctx context.Context, udid, productVersion, bundleID, projectPath string) (*sib.WDASession, error) {
 	return nil, fmt.Errorf("cannot start WDA: %w", t.err)
 }
 

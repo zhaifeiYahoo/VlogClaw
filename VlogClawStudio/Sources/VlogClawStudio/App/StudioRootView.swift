@@ -8,12 +8,11 @@ struct StudioRootView: View {
         ZStack {
             StudioBackdrop()
 
-            HSplitView {
-                DeviceSidebarView(model: model)
-                DevicePreviewBoard(model: model)
-                AssistantPanelView(model: model)
+            HStack(spacing: 18) {
+                StudioSidebarView(model: model)
+                contentView
             }
-            .padding(22)
+            .padding(20)
         }
         .overlay(alignment: .top) {
             if let error = model.lastError {
@@ -28,12 +27,16 @@ struct StudioRootView: View {
                     .buttonStyle(.plain)
                 }
                 .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                .foregroundStyle(Color.black)
+                .foregroundStyle(StudioTheme.primaryText)
                 .padding(.horizontal, 18)
                 .padding(.vertical, 12)
                 .background(
-                    Capsule()
-                        .fill(StudioTheme.warmAccent)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(StudioTheme.warmSoft)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(StudioTheme.warmAccent.opacity(0.28), lineWidth: 1)
                 )
                 .padding(.top, 16)
                 .padding(.horizontal, 24)
@@ -60,6 +63,16 @@ struct StudioRootView: View {
         }
         .onDisappear {
             model.stop()
+        }
+    }
+
+    @ViewBuilder
+    private var contentView: some View {
+        switch model.selectedSection {
+        case .dashboard:
+            DashboardView(model: model)
+        case .workflow:
+            WorkflowWorkspaceView(model: model)
         }
     }
 }

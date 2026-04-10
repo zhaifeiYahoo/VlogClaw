@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"errors"
+	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,8 +14,13 @@ import (
 type deviceHandlerService interface {
 	ListDevices(ctx context.Context) ([]device.Info, error)
 	GetDevice(ctx context.Context, udid string) (device.Info, error)
-	ConnectDevice(ctx context.Context, udid string) error
+	ConnectDevice(ctx context.Context, udid, projectPath, bundleID string) error
 	DisconnectDevice(udid string) error
+}
+
+type connectDeviceRequest struct {
+	WDAProjectPath string `json:"wda_project_path"`
+	WDABundleID    string `json:"wda_bundle_id"`
 }
 
 // DeviceHandler handles device discovery and connection requests.
@@ -53,7 +59,13 @@ func (h *DeviceHandler) GetDevice(c *gin.Context) {
 
 // ConnectDevice handles POST /api/v1/devices/:udid/connect.
 func (h *DeviceHandler) ConnectDevice(c *gin.Context) {
-	if err := h.devices.ConnectDevice(c.Request.Context(), c.Param("udid")); err != nil {
+	var req connectDeviceRequest
+	if err := c.ShouldBindJSON(&req); err != nil && !errors.Is(err, io.EOF) {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
+		return
+	}
+
+	if err := h.devices.ConnectDevice(c.Request.Context(), c.Param("udid"), req.WDAProjectPath, req.WDABundleID); err != nil {
 		switch {
 		case errors.Is(err, device.ErrDeviceNotFound):
 			c.JSON(http.StatusNotFound, gin.H{"success": false, "error": err.Error()})

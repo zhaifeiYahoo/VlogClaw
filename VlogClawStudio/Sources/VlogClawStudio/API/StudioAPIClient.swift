@@ -28,6 +28,16 @@ struct StudioAPIClient {
         let status: String
     }
 
+    private struct ConnectDeviceRequest: Encodable {
+        let wdaProjectPath: String
+        let wdaBundleID: String?
+
+        enum CodingKeys: String, CodingKey {
+            case wdaProjectPath = "wda_project_path"
+            case wdaBundleID = "wda_bundle_id"
+        }
+    }
+
     init(baseURLString: String, session: URLSession = .shared) throws {
         guard let url = URL(string: baseURLString.trimmingCharacters(in: .whitespacesAndNewlines)) else {
             throw StudioAPIError.invalidBaseURL
@@ -46,8 +56,19 @@ struct StudioAPIClient {
         return try decodeEnvelope(StudioDevice.self, from: data)
     }
 
-    func connectDevice(udid: String) async throws {
-        _ = try await performRequest(path: "/api/v1/devices/\(udid)/connect", method: "POST")
+    func connectDevice(udid: String, wdaProjectPath: String?, wdaBundleID: String?) async throws {
+        let body: Data?
+        if (wdaProjectPath?.isEmpty == false) || (wdaBundleID?.isEmpty == false) {
+            body = try JSONEncoder().encode(
+                ConnectDeviceRequest(
+                    wdaProjectPath: wdaProjectPath ?? "",
+                    wdaBundleID: wdaBundleID
+                )
+            )
+        } else {
+            body = nil
+        }
+        _ = try await performRequest(path: "/api/v1/devices/\(udid)/connect", method: "POST", body: body)
     }
 
     func disconnectDevice(udid: String) async throws {

@@ -1,5 +1,39 @@
 import Foundation
 
+enum StudioSection: String, CaseIterable, Identifiable {
+    case dashboard
+    case workflow
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .dashboard:
+            return "Dashboard"
+        case .workflow:
+            return "Workflow"
+        }
+    }
+
+    var subtitle: String {
+        switch self {
+        case .dashboard:
+            return "Connect phones"
+        case .workflow:
+            return "Preview + publish"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .dashboard:
+            return "square.grid.2x2.fill"
+        case .workflow:
+            return "point.3.connected.trianglepath.dotted"
+        }
+    }
+}
+
 enum BackendRuntimeState: String, Sendable {
     case idle
     case launching
